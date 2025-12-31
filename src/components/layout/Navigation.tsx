@@ -251,7 +251,7 @@ export function Navigation() {
                 </Link>
                 <div
                   className={cn(
-                    'px-4 py-2 flex items-center gap-3 cursor-pointer rounded-xl',
+                    'pl-3 pr-4 py-2 flex items-center gap-3 cursor-pointer rounded-xl',
                     'hover:bg-sky-50 dark:hover:bg-navy-800 transition-colors',
                   )}
                   onClick={(e) => {
