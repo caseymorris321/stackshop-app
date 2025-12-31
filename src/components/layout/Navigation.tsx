@@ -227,12 +227,6 @@ export function Navigation() {
               </div>
             ) : isSignedIn ? (
               <div className="flex flex-col gap-1">
-                <div className="px-4 py-2 text-sm text-slate-500 dark:text-sky-300">
-                  Signed in as{' '}
-                  <span className="font-medium text-navy-800 dark:text-sky-100">
-                    {user?.emailAddresses[0]?.emailAddress}
-                  </span>
-                </div>
                 <Link
                   to="/saved-products"
                   onClick={() => setMobileMenuOpen(false)}
@@ -249,6 +243,12 @@ export function Navigation() {
                   />
                   Saved{savedCount > 0 ? ` (${savedCount})` : ''}
                 </Link>
+                <div className="px-4 py-2 text-sm text-slate-500 dark:text-sky-300">
+                  Signed in as{' '}
+                  <span className="font-medium text-navy-800 dark:text-sky-100">
+                    {user?.emailAddresses[0]?.emailAddress}
+                  </span>
+                </div>
                 <div
                   className={cn(
                     'pl-3 pr-4 py-2 flex items-center gap-3 cursor-pointer rounded-xl',
