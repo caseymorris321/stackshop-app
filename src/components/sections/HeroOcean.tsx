@@ -70,8 +70,8 @@ export function HeroOcean() {
     skyUniforms['mieDirectionalG'].value = 0.8
 
     const parameters = {
-      elevation: 2,
-      azimuth: isMobile ? 167 : 180,
+      elevation: 3,
+      azimuth: isMobile ? 170 : 180,
     }
 
     const pmremGenerator = new THREE.PMREMGenerator(renderer)
