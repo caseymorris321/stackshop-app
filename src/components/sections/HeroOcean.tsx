@@ -70,7 +70,7 @@ export function HeroOcean() {
     skyUniforms['mieDirectionalG'].value = 0.8
 
     const parameters = {
-      elevation: 1,
+      elevation: 3,
       azimuth: 180,
     }
 
@@ -98,8 +98,8 @@ export function HeroOcean() {
 
     updateSun()
 
-    // Simple camera look - straight ahead
-    camera.lookAt(0, 10, -100)
+    // Camera looks at horizon (y=0) so sun is centered vertically
+    camera.lookAt(0, 0, -100)
 
     // Animation with visibility optimization
     let animationId: number

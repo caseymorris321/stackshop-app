@@ -27,19 +27,22 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/70 via-transparent to-[#0A1628]/20 pointer-events-none" />
 
       {/* Content Overlay */}
-      <div className="absolute inset-0 flex flex-col items-center pointer-events-none">
-        {/* Badge - positioned in upper area above sun */}
-        <div className="mt-[32vh] -translate-y-1 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 pointer-events-auto shadow-lg shadow-black/20">
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+        {/* Badge - above the sun */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 pointer-events-auto shadow-lg shadow-black/20">
           <Droplets size={16} className="text-sky-300" />
           <span className="text-sm font-medium text-white/90">
             Premium Hydration Products
           </span>
         </div>
 
+        {/* Spacer for sun */}
+        <div className="h-[12vh]" />
+
         {/* Title - at horizon line */}
         <h1
           className={cn(
-            'mt-[3vh] text-5xl md:text-7xl font-bold text-white',
+            'text-5xl md:text-7xl font-bold text-white',
             'tracking-tight leading-tight',
             'drop-shadow-lg',
           )}
