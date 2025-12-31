@@ -249,7 +249,16 @@ export function Navigation() {
                   />
                   Saved{savedCount > 0 ? ` (${savedCount})` : ''}
                 </Link>
-                <div className="px-4 py-2 flex items-center gap-3">
+                <div
+                  className={cn(
+                    'px-4 py-2 flex items-center gap-3 cursor-pointer rounded-xl',
+                    'hover:bg-sky-50 dark:hover:bg-navy-800 transition-colors',
+                  )}
+                  onClick={(e) => {
+                    const btn = e.currentTarget.querySelector('button')
+                    if (btn) btn.click()
+                  }}
+                >
                   <UserButton
                     afterSignOutUrl="/"
                     appearance={{
