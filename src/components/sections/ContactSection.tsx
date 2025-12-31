@@ -42,10 +42,7 @@ export function ContactSection() {
           {/* Left - Contact Info */}
           <div className="space-y-8">
             <div className="text-center lg:text-left">
-              <span className="text-sm font-semibold uppercase tracking-wider text-ocean-500">
-                Contact Us
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy-900 mt-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-navy-900">
                 Let's Talk Hydration
               </h2>
               <p className="text-lg text-slate-600 mt-4">

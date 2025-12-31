@@ -32,14 +32,9 @@ export function AboutSection() {
 
           {/* Content */}
           <div className="space-y-6">
-            <div className="text-center lg:text-left">
-              <span className="text-sm font-semibold uppercase tracking-wider text-ocean-500 dark:text-ocean-400">
-                About WatersLab
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy-900 dark:text-sky-100 mt-2">
-                Hydration Science for Peak Performance
-              </h2>
-            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy-900 dark:text-sky-100 text-center lg:text-left">
+              Hydration Science for Peak Performance
+            </h2>
 
             <p className="text-lg text-slate-600 dark:text-sky-200 leading-relaxed">
               At WatersLab, we believe proper hydration is the foundation of

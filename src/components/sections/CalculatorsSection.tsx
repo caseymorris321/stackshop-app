@@ -7,10 +7,7 @@ export function CalculatorsSection() {
       <div className="max-w-6xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className="text-sm font-semibold uppercase tracking-wider text-ocean-500 dark:text-ocean-400">
-            Free Tools
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-navy-900 dark:text-sky-100 mt-2">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy-900 dark:text-sky-100">
             Calculate Your Hydration Needs
           </h2>
           <p className="text-lg text-slate-600 dark:text-sky-200 mt-4 max-w-2xl mx-auto">
