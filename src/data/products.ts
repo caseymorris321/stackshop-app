@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { eq, ne } from 'drizzle-orm'
 import type { ProductInsert, ProductSelect } from '@/db/schema'
 import { products } from '@/db/schema'
 import { db } from '@/db'
@@ -14,9 +14,13 @@ export async function getAllProducts() {
   }
 }
 
-export async function getRecommendedProducts() {
+export async function getRecommendedProducts(excludeId?: string) {
   try {
-    const productsData = await db.select().from(products).limit(3)
+    const productsData = await db
+      .select()
+      .from(products)
+      .where(excludeId ? ne(products.id, excludeId) : undefined)
+      .limit(3)
     return productsData
   } catch (error) {
     console.error('Error fetching recommended products:', error)
@@ -50,6 +54,30 @@ export async function createProduct(data: ProductInsert) {
     return product
   } catch (error) {
     console.error('Error creating product', error)
+  }
+}
+
+export async function updateProduct(id: string, data: Partial<ProductInsert>) {
+  try {
+    const result = await db
+      .update(products)
+      .set(data)
+      .where(eq(products.id, id))
+      .returning()
+    return result[0] || null
+  } catch (error) {
+    console.error('Error updating product:', error)
+    return null
+  }
+}
+
+export async function deleteProduct(id: string) {
+  try {
+    await db.delete(products).where(eq(products.id, id))
+    return { success: true }
+  } catch (error) {
+    console.error('Error deleting product:', error)
+    return { success: false }
   }
 }
 

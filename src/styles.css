@@ -7,6 +7,24 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
+
+  /* WatersLab Brand Colors */
+  --navy-950: #0A1628;
+  --navy-900: #0F2442;
+  --navy-800: #1A365D;
+  --navy-700: #1E4976;
+
+  --ocean-600: #2563EB;
+  --ocean-500: #3B82F6;
+  --ocean-400: #60A5FA;
+
+  --sky-400: #38BDF8;
+  --sky-300: #7DD3FC;
+  --sky-200: #BAE6FD;
+  --sky-100: #E0F2FE;
+  --sky-50: #F0F9FF;
+
+  --cream: #FDF8F3;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.147 0.004 49.25);
   --popover: oklch(1 0 0);
@@ -40,41 +58,61 @@
 }
 
 .dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.645 0.246 16.439);
-  --primary-foreground: oklch(0.969 0.015 12.422);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.645 0.246 16.439);
-  --accent-foreground: oklch(0.969 0.015 12.422);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.81 0.117 11.638);
-  --chart-2: oklch(0.645 0.246 16.439);
-  --chart-3: oklch(0.586 0.253 17.585);
-  --chart-4: oklch(0.514 0.222 16.935);
-  --chart-5: oklch(0.455 0.188 13.697);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.645 0.246 16.439);
-  --sidebar-primary-foreground: oklch(0.969 0.015 12.422);
-  --sidebar-accent: oklch(0.645 0.246 16.439);
-  --sidebar-accent-foreground: oklch(0.969 0.015 12.422);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
+  /* Dark ocean blues instead of blacks */
+  --background: #0A1628; /* navy-950 */
+  --foreground: #E0F2FE; /* sky-100 */
+  --card: #0F2442; /* navy-900 */
+  --card-foreground: #E0F2FE; /* sky-100 */
+  --popover: #0F2442; /* navy-900 */
+  --popover-foreground: #E0F2FE; /* sky-100 */
+  --primary: #3B82F6; /* ocean-500 */
+  --primary-foreground: #FFFFFF;
+  --secondary: #1A365D; /* navy-800 */
+  --secondary-foreground: #BAE6FD; /* sky-200 */
+  --muted: #1A365D; /* navy-800 */
+  --muted-foreground: #7DD3FC; /* sky-300 */
+  --accent: #60A5FA; /* ocean-400 */
+  --accent-foreground: #0A1628; /* navy-950 */
+  --destructive: #EF4444;
+  --border: rgba(56, 189, 248, 0.15); /* sky-400 at 15% */
+  --input: rgba(56, 189, 248, 0.1); /* sky-400 at 10% */
+  --ring: #38BDF8; /* sky-400 */
+  --chart-1: #60A5FA;
+  --chart-2: #38BDF8;
+  --chart-3: #7DD3FC;
+  --chart-4: #3B82F6;
+  --chart-5: #2563EB;
+  --sidebar: #0F2442; /* navy-900 */
+  --sidebar-foreground: #E0F2FE;
+  --sidebar-primary: #3B82F6;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #60A5FA;
+  --sidebar-accent-foreground: #0A1628;
+  --sidebar-border: rgba(56, 189, 248, 0.15);
+  --sidebar-ring: #38BDF8;
 }
 
 @theme inline {
   --font-sans: 'Figtree Variable', sans-serif;
+
+  /* WatersLab Brand Colors */
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+
+  --color-ocean-600: var(--ocean-600);
+  --color-ocean-500: var(--ocean-500);
+  --color-ocean-400: var(--ocean-400);
+
+  --color-sky-400: var(--sky-400);
+  --color-sky-300: var(--sky-300);
+  --color-sky-200: var(--sky-200);
+  --color-sky-100: var(--sky-100);
+  --color-sky-50: var(--sky-50);
+
+  --color-cream: var(--cream);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

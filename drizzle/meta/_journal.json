@@ -8,6 +8,27 @@
       "when": 1766109558051,
       "tag": "0000_lucky_silver_centurion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767120402318,
+      "tag": "0001_even_typhoid_mary",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767129649632,
+      "tag": "0002_nappy_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767132912517,
+      "tag": "0003_happy_wonder_man",
+      "breakpoints": true
     }
   ]
 }

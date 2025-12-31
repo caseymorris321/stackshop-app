@@ -1,13 +1,20 @@
-import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import {
+  createFileRoute,
+  useNavigate,
+  useRouter,
+} from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
 import { createServerFn } from '@tanstack/react-start'
 import type {
   BadgeValue,
+  CategoryValue,
   InventoryValue,
   ProductInsert,
   ProductSelect,
 } from '@/db/schema'
+import { categories } from '@/db/schema'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { FieldError } from '@/components/ui/field-error'
@@ -27,10 +34,46 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { useUser } from '@clerk/clerk-react'
 
-export const Route = createFileRoute('/products/create-product')({
-  component: RouteComponent,
+export const Route = createFileRoute('/store/create-product')({
+  component: CreateProductPage,
 })
+
+function CreateProductPage() {
+  const navigate = useNavigate()
+  const { isSignedIn, user, isLoaded } = useUser()
+
+  const ADMIN_EMAIL = 'morrisacasey@gmail.com'
+
+  useEffect(() => {
+    if (!isLoaded) return
+
+    if (!isSignedIn) {
+      navigate({ to: '/login' })
+    } else if (user?.primaryEmailAddress?.emailAddress !== ADMIN_EMAIL) {
+      navigate({ to: '/store' })
+    }
+  }, [isLoaded, isSignedIn, user, navigate])
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <p className="text-slate-500">Checking authentication...</p>
+      </div>
+    )
+  }
+
+  if (!isSignedIn || user?.primaryEmailAddress?.emailAddress !== ADMIN_EMAIL) {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <p className="text-slate-500">Redirecting...</p>
+      </div>
+    )
+  }
+
+  return <RouteComponent />
+}
 
 const productSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -42,6 +85,7 @@ const productSchema = z.object({
     z.enum(['New', 'Sale', 'Featured', 'Limited']),
     z.undefined(),
   ]),
+  category: z.enum(['running', 'cycling', 'gym', 'outdoor', 'recovery', 'everyday']),
   rating: z.number().min(0).max(5, 'Rating must be between 0 and 5'),
   reviews: z
     .number()
@@ -59,6 +103,7 @@ type CreateProductData = {
   description: string
   price: string
   badge?: 'New' | 'Sale' | 'Featured' | 'Limited'
+  category: 'running' | 'cycling' | 'gym' | 'outdoor' | 'recovery' | 'everyday'
   rating: number
   reviews: number
   inventory: 'in-stock' | 'backorder' | 'preorder'
@@ -74,6 +119,7 @@ const createProductServerFn = createServerFn({ method: 'POST' })
       description: data.description,
       price: data.price,
       badge: data.badge ?? null,
+      category: data.category,
       image: data.image,
       inventory: data.inventory,
     }
@@ -93,6 +139,7 @@ function RouteComponent() {
       description: '',
       price: '',
       badge: undefined as BadgeValue | undefined,
+      category: 'everyday' as CategoryValue,
       rating: 0,
       reviews: 0,
       image: '',
@@ -116,6 +163,7 @@ function RouteComponent() {
             price: value.price,
             image: value.image,
             badge: value.badge,
+            category: value.category,
             rating: value.rating,
             reviews: value.reviews,
             inventory: value.inventory,
@@ -124,14 +172,14 @@ function RouteComponent() {
 
         await router.invalidate({ sync: true })
 
-        navigate({ to: '/products' })
+        navigate({ to: '/store' })
       } catch (error) {
         console.error('Error creating product:', error)
       }
     },
   })
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
+    <div className="max-w-7xl mx-auto pt-24 pb-8 px-4">
       <div className="space-y-6">
         <Card>
           <CardHeader className="gap-2">
@@ -244,6 +292,32 @@ function RouteComponent() {
                         <SelectItem value="Sale">Sale</SelectItem>
                         <SelectItem value="Featured">Featured</SelectItem>
                         <SelectItem value="Limited">Limited</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FieldError errors={field.state.meta.errors} />
+                  </div>
+                )}
+              </form.Field>
+
+              <form.Field name="category">
+                {(field) => (
+                  <div className="space-y-2">
+                    <Label htmlFor={field.name}>Category</Label>
+                    <Select
+                      value={field.state.value}
+                      onValueChange={(value) =>
+                        field.handleChange(value as CategoryValue)
+                      }
+                    >
+                      <SelectTrigger id={field.name} className={'w-full'}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FieldError errors={field.state.meta.errors} />

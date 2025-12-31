@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
-import { ShoppingBagIcon } from 'lucide-react'
+import { ShoppingBagIcon, Heart } from 'lucide-react'
+import { createServerFn } from '@tanstack/react-start'
+import { useUser, useClerk } from '@clerk/clerk-react'
 import {
   Card,
   CardContent,
@@ -9,46 +12,120 @@ import {
   CardTitle,
 } from './ui/card'
 import { Button } from './ui/button'
-import type { Product } from '../../scripts/seed'
 import { cn } from '@/lib/utils'
 import { ProductSelect } from '@/db/schema'
 import { mutateCartFn } from '@/routes/cart'
 import { useRouter } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query'
 
+const checkIfSavedServerFn = createServerFn({ method: 'GET' })
+  .inputValidator((data: { userId: string; productId: string }) => data)
+  .handler(async ({ data }) => {
+    const { isProductSaved } = await import('@/data/saved-products')
+    return isProductSaved(data.userId, data.productId)
+  })
+
+const toggleSaveProductServerFn = createServerFn({ method: 'POST' })
+  .inputValidator((data: { userId: string; productId: string; isSaved: boolean }) => data)
+  .handler(async ({ data }) => {
+    const { saveProduct, removeSavedProduct } = await import('@/data/saved-products')
+    if (data.isSaved) {
+      await removeSavedProduct(data.userId, data.productId)
+    } else {
+      await saveProduct(data.userId, data.productId)
+    }
+    return { success: true }
+  })
+
 const inventoryTone = {
-  'in-stock': 'bg-emerald-50 text-emerald-600 border-emerald-100',
+  'in-stock': 'bg-green-50 text-green-600 border-green-100',
   backorder: 'bg-amber-50 text-amber-700 border-amber-100',
-  preorder: 'bg-indigo-50 text-indigo-700 border-indigo-100',
+  preorder: 'bg-sky-50 text-sky-700 border-sky-100',
 }
 
 export function ProductCard({ product }: { product: ProductSelect }) {
   const router = useRouter()
   const queryClient = useQueryClient()
+  const { user, isLoaded } = useUser()
+  const { openSignIn } = useClerk()
+  const [isSaved, setIsSaved] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+
+  const userId = user?.id ?? null
+
+  useEffect(() => {
+    if (userId) {
+      checkIfSavedServerFn({ data: { userId, productId: product.id } })
+        .then(setIsSaved)
+    }
+  }, [userId, product.id])
+
+  const handleSaveToggle = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!isLoaded) return
+    if (!userId) {
+      openSignIn()
+      return
+    }
+    setIsSaving(true)
+    await toggleSaveProductServerFn({
+      data: { userId, productId: product.id, isSaved },
+    })
+    setIsSaved(!isSaved)
+    setIsSaving(false)
+    // Update the saved count in nav
+    await queryClient.invalidateQueries({
+      queryKey: ['saved-products-count', userId],
+    })
+  }
+
   return (
     <Link
-      to="/products/$id"
+      to="/store/$id"
       params={{ id: product.id }}
-      className="cursor-default h-full hover:-translate-y-1 hover:shadow-lg transition"
+      className="block h-full cursor-default"
     >
-      <Card className="px-2 py-4 h-full flex flex-col justify-between">
-        <CardHeader className="gap-2 ">
-          <div className="flex items-center gap-2">
-            {product.badge && (
-              <span className="rounded-full bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white">
-                {product.badge}
-              </span>
-            )}
+      <Card className="h-full flex flex-col bg-white dark:bg-navy-800 border-slate-100 dark:border-sky-400/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+        <CardHeader className="gap-2 pb-2">
+          <div className="flex items-center justify-between h-6">
+            <div className="flex items-center gap-2">
+              {product.badge ? (
+                <span className="rounded-full bg-ocean-500 px-2.5 py-0.5 text-xs font-semibold text-white">
+                  {product.badge}
+                </span>
+              ) : (
+                <span className="rounded-full bg-transparent px-2.5 py-0.5 text-xs font-semibold invisible">
+                  Placeholder
+                </span>
+              )}
+            </div>
+            <button
+              onClick={handleSaveToggle}
+              disabled={isSaving || !isLoaded}
+              className={cn(
+                'p-1.5 rounded-full transition-colors cursor-pointer',
+                !isLoaded
+                  ? 'text-slate-300 dark:text-navy-600'
+                  : isSaved
+                    ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10'
+                    : 'text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10'
+              )}
+            >
+              <Heart size={18} className={isSaved ? 'fill-current' : ''} />
+            </button>
           </div>
-          <CardTitle className="text-lg font-semibold">
+          <CardTitle className="text-lg font-semibold text-navy-900 dark:text-sky-100">
             {product.name}
           </CardTitle>
-          <CardDescription>{product.description}</CardDescription>
+          <CardDescription className="text-slate-600 dark:text-sky-300 line-clamp-2">
+            {product.description}
+          </CardDescription>
         </CardHeader>
-        <CardContent className="mt-auto flex items-center justify-between">
-          <p className="flex items-center gap-2 text-sm text-slate-600">
-            <span className="font-semibold">{product.rating}/5</span>
-            <span className="text-slate-400">({product.reviews} reviews)</span>
+        <CardContent className="mt-auto flex items-center justify-between pt-2">
+          <p className="flex items-center gap-2 text-sm text-slate-600 dark:text-sky-300">
+            <span className="font-semibold text-navy-800 dark:text-sky-100">{product.rating}/5</span>
+            <span className="text-slate-400 dark:text-sky-400">({product.reviews} reviews)</span>
           </p>
           <span
             className={cn(
@@ -63,14 +140,12 @@ export function ProductCard({ product }: { product: ProductSelect }) {
                 : 'Preorder'}
           </span>
         </CardContent>
-        <CardFooter className="pt-0 flex items-center justify-between border-t-0 bg-transparent">
-          <span className="text-lg font-semibold">${product.price}</span>
+        <CardFooter className="pt-4 flex items-center justify-between border-t border-slate-100 dark:border-sky-400/10 mt-4">
+          <span className="text-xl font-bold text-navy-900 dark:text-sky-100">${product.price}</span>
           <Button
             size="sm"
-            variant={'secondary'}
-            className={'bg-slate-900 text-white hover:bg-slate-800'}
+            className="bg-ocean-500 hover:bg-ocean-600 text-white shadow-sm hover:shadow-md transition-all cursor-pointer"
             onClick={async (e) => {
-              console.log('add to cart')
               e.preventDefault()
               e.stopPropagation()
               await mutateCartFn({
@@ -78,11 +153,12 @@ export function ProductCard({ product }: { product: ProductSelect }) {
                   action: 'add',
                   productId: product.id,
                   quantity: 1,
+                  userId,
                 },
               })
               await router.invalidate({ sync: true })
               await queryClient.invalidateQueries({
-                queryKey: ['cart-items-data'],
+                queryKey: ['cart-items-data', userId],
               })
             }}
           >

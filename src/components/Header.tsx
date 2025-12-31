@@ -40,12 +40,12 @@ export default function Header() {
               Home
             </Link>
             <Link
-              to="/products"
+              to="/store"
               className="rounded-lg px-3 py-1 transition hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              Products
+              Store
             </Link>
-            <Link to="/products/create-product" className="ml-4">
+            <Link to="/store/create-product" className="ml-4">
               Create Product
             </Link>
           </nav>
