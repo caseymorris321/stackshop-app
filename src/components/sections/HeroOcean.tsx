@@ -71,7 +71,7 @@ export function HeroOcean() {
 
     const parameters = {
       elevation: 3,
-      azimuth: isMobile ? 170 : 180,
+      azimuth: isMobile ? 160 : 180,
     }
 
     const pmremGenerator = new THREE.PMREMGenerator(renderer)
