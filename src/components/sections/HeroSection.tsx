@@ -28,18 +28,15 @@ export function HeroSection() {
 
       {/* Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        {/* Badge - above the sun */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 pointer-events-auto shadow-lg shadow-black/20">
+        {/* Badge */}
+        <div className="mb-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 pointer-events-auto shadow-lg shadow-black/20">
           <Droplets size={16} className="text-sky-300" />
           <span className="text-sm font-medium text-white/90">
             Premium Hydration Products
           </span>
         </div>
 
-        {/* Spacer for sun */}
-        <div className="h-[12vh]" />
-
-        {/* Title - at horizon line */}
+        {/* Title */}
         <h1
           className={cn(
             'text-5xl md:text-7xl font-bold text-white',
