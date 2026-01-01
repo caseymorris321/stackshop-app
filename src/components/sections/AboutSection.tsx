@@ -16,12 +16,12 @@ export function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image */}
           <div className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-sky-100 to-ocean-100">
+            <div className="aspect-square rounded-3xl">
               <div className="w-full h-full flex items-center justify-center">
                 <img
                   src="https://plus.unsplash.com/premium_photo-1746192629906-7298725e8600?w=800&auto=format&fit=crop&q=80"
                   alt="Athletic man staying hydrated during workout"
-                  className="w-[98%] h-[98%] rounded-full object-cover"
+                  className="w-[98%] h-[98%] rounded-full object-cover ring-4 ring-ocean-700 shadow-xl"
                 />
               </div>
             </div>
