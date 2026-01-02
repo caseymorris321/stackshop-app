@@ -29,8 +29,7 @@ export function HeroSection() {
       {/* Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         {/* Badge */}
-        <div className="mb-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400/10 backdrop-blur-sm border border-amber-300/25 pointer-events-auto">
-          <Droplets size={16} className="text-sky-300" />
+        <div className="mb-4 inline-flex items-center px-4 py-2 rounded-full bg-amber-400/10 backdrop-blur-sm border border-amber-300/25 pointer-events-auto">
           <span className="text-sm font-medium text-white/90">
             Premium Hydration Products
           </span>
