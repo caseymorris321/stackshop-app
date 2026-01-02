@@ -99,7 +99,7 @@ export function HeroOcean() {
     updateSun()
 
     // Camera looks down to push sun up on screen (above text container)
-    camera.lookAt(0, -12, -100)
+    camera.lookAt(0, -15, -100)
 
     // Animation with visibility optimization
     let animationId: number
