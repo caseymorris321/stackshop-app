@@ -54,8 +54,8 @@ export function HeroSection() {
             'drop-shadow-md',
           )}
         >
-          Fuel your performance with science-backed hydration solutions for
-          athletes who demand the best.
+          Fuel your performance with science-backed formulas for athletes who
+          demand the best.
         </p>
 
         {/* CTA Buttons */}
